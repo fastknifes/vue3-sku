@@ -2,10 +2,10 @@
     <div>
         <SkuForm
             ref="skuForm"
+            v-model:attribute="attribute"
+            v-model:sku="sku"
             :source-attribute="sourceAttribute"
             :structure="structure"
-            :attribute.sync="attribute"
-            :sku.sync="sku"
         >
             <template #score="slotProps">
                 <div>
@@ -16,9 +16,9 @@
                 <div class="image-upload-container">
                     <el-image v-if="slotProps.row.image" :src="slotProps.row.image" :preview-src-list="[slotProps.row.image]" fit="cover" title="点击预览" />
                     <el-upload :show-file-list="false" action="http://scrm.1daas.com/api/upload/upload" :data="{token: 'TKD917339526087186'}" name="image" :before-upload="beforeUpload" :on-success="res => imageUpload(res, slotProps)" class="images-upload">
-                        <el-button size="small" icon="el-icon-upload2">{{ slotProps.row.image ? '重新上传' : '上传图片' }}</el-button>
+                        <el-button size="small">{{ slotProps.row.image ? '重新上传' : '上传图片' }}</el-button>
                     </el-upload>
-                    <el-button v-if="slotProps.row.image" size="small" icon="el-icon-delete" @click="imageRemove(slotProps)" />
+                    <el-button v-if="slotProps.row.image" size="small" @click="imageRemove(slotProps)" />
                 </div>
             </template>
         </SkuForm>
@@ -37,6 +37,7 @@
 </template>
 
 <script>
+import { ElMessage } from 'element-plus'
 export default {
     data() {
         return {
@@ -87,10 +88,10 @@ export default {
             const isTypeOk = ext.indexOf(fileExt) >= 0
             const isSizeOk = file.size / 1024 / 1024 < size
             if (!isTypeOk) {
-                this.$message.error(`上传图片只支持 ${ ext.join(' / ') } 格式！`)
+                ElMessage.error(`上传图片只支持 ${ ext.join(' / ') } 格式！`)
             }
             if (!isSizeOk) {
-                this.$message.error(`上传图片大小不能超过 ${size}MB！`)
+                ElMessage.error(`上传图片大小不能超过 ${size}MB！`)
             }
             return isTypeOk && isSizeOk
         },
@@ -101,8 +102,8 @@ export default {
             // 模拟返回数据
             let imagePath = 'http://images.lookbi.com/uploads/apply/166/e2e1b23647d67df2655d5e6bed76670c.jpg'
             data.row.image = imagePath
-            this.$message.success('图片上传成功')
-            this.$refs.skuForm.validateFieldByRows(data.$index, 'image', () => {})
+            ElMessage.success('图片上传成功')
+            this.$refs.skuForm.validateFieldByRows(data.index, 'image', () => {})
         },
         imageRemove(data) {
             data.row.image = ''
@@ -110,9 +111,9 @@ export default {
         submit() {
             this.$refs.skuForm.validate(valid => {
                 if (valid) {
-                    this.$message.success('验证通过')
+                    ElMessage.success('验证通过')
                 } else {
-                    this.$message.warning('验证失败')
+                    ElMessage.warning('验证失败')
                 }
             })
         }
@@ -121,7 +122,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-::v-deep .el-upload-dragger {
+:deep(.el-upload-dragger) {
     width: initial;
     height: initial;
     border: 0;

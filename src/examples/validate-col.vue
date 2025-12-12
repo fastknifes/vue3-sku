@@ -1,11 +1,12 @@
 <template>
+    <!-- eslint-disable vue/multi-word-component-names -->
     <div>
         <SkuForm
             ref="skuForm"
+            v-model:attribute="attribute"
+            v-model:sku="sku"
             :source-attribute="sourceAttribute"
             :structure="structure"
-            :attribute.sync="attribute"
-            :sku.sync="sku"
         />
         <el-button type="primary" style="margin-top: 10px;" @click="clear">清除验证结果</el-button>
         <el-button type="primary" style="margin-top: 10px;" @click="check('price')">验证价格</el-button>
@@ -25,6 +26,7 @@
 </template>
 
 <script>
+/* eslint-disable vue/multi-word-component-names */
 export default {
     data() {
         return {

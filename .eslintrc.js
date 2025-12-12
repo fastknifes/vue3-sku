@@ -9,13 +9,14 @@ module.exports = {
         require: true
     },
     extends: [
-        'plugin:vue/strongly-recommended',
+        'plugin:vue/vue3-strongly-recommended',
         'eslint:recommended'
     ],
     parserOptions: {
-        ecmaVersion: 2015,
-        parser: 'babel-eslint',
-        sourceType: 'module'
+        ecmaVersion: 2021,
+        parser: '@babel/eslint-parser',
+        sourceType: 'module',
+        requireConfigFile: false
     },
     rules: {
         // 代码风格
@@ -82,6 +83,7 @@ module.exports = {
         'vue/this-in-template': 2,
         'vue/script-indent': [2, 4, {
             'switchCase': 1
-        }]
+        }],
+        'vue/multi-word-component-names': 0
     }
 };

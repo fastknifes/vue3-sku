@@ -2,10 +2,10 @@
     <div>
         <SkuForm
             ref="skuForm"
+            v-model:attribute="attribute"
+            v-model:sku="sku"
             :source-attribute="sourceAttribute"
             :structure="structure"
-            :attribute.sync="attribute"
-            :sku.sync="sku"
             async
         />
         <el-button type="primary" :loading="loading" style="margin-top: 10px;" @click="load(1)">模拟加载数据1</el-button>

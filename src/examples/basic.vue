@@ -1,9 +1,10 @@
 <template>
+    <!-- eslint-disable vue/multi-word-component-names -->
     <div>
         <SkuForm
+            v-model:attribute="attribute"
+            v-model:sku="sku"
             :source-attribute="sourceAttribute"
-            :attribute.sync="attribute"
-            :sku.sync="sku"
         />
         <el-row type="flex" :gutter="20">
             <el-col>
@@ -19,6 +20,7 @@
 </template>
 
 <script>
+/* eslint-disable vue/multi-word-component-names */
 export default {
     data() {
         return {

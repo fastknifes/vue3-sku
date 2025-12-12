@@ -2,10 +2,10 @@
     <div>
         <SkuForm
             ref="skuForm"
+            v-model:attribute="attribute"
+            v-model:sku="sku"
             :source-attribute="sourceAttribute"
             :structure="structure"
-            :attribute.sync="attribute"
-            :sku.sync="sku"
         />
         <el-button type="primary" style="margin-top: 10px;" @click="submit">提交</el-button>
         <el-row type="flex" :gutter="20">
@@ -22,6 +22,7 @@
 </template>
 
 <script>
+import { ElMessage } from 'element-plus'
 export default {
     data() {
         return {
@@ -72,9 +73,9 @@ export default {
         submit() {
             this.$refs.skuForm.validate(valid => {
                 if (valid) {
-                    this.$message.success('验证通过')
+                    ElMessage.success('验证通过')
                 } else {
-                    this.$message.warning('验证失败')
+                    ElMessage.warning('验证失败')
                 }
             })
         }

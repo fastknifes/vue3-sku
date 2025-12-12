@@ -1,30 +1,41 @@
 <template>
-    <div class="sku-container">
+       <div class="sku-container">
         <div v-if="!disabled" class="sku-check">
             <div v-if="theme == 1" class="theme-1">
                 <el-card v-for="(item, index) in myAttribute" :key="index" class="item" shadow="never">
-                    <div slot="header">{{ item.name }}</div>
+                    <template #header>{{ item.name }}</template>
                     <el-checkbox v-for="(item2, index2) in item.item" :key="index2" v-model="item2.checked" :label="item2.name" size="small" />
-                    <el-input v-if="item.canAddAttribute" v-model="item.addAttribute" size="small" placeholder="新增一个规格" class="add-attr" @keyup.enter.native="onAddAttribute(index)">
-                        <el-button slot="append" size="small" icon="el-icon-plus" @click="onAddAttribute(index)">添加</el-button>
+                    <el-input v-if="item.canAddAttribute" v-model="item.addAttribute" size="small" placeholder="新增一个规格" class="add-attr" @keyup.enter="onAddAttribute(index)">
+                        <template #append>
+                            <el-button size="small" @click="onAddAttribute(index)">添加</el-button>
+                        </template> 
                     </el-input>
                 </el-card>
             </div>
             <el-table v-else :data="myAttribute" :show-header="false" class="theme-2">
                 <el-table-column prop="name" width="120" :resizable="false" />
                 <el-table-column>
-                    <template slot-scope="scope">
+                    <template #default="scope">
                         <el-checkbox v-for="(item2, index2) in scope.row.item" :key="index2" v-model="item2.checked" :label="item2.name" size="small" />
                     </template>
                 </el-table-column>
                 <el-table-column width="250">
-                    <template slot-scope="scope">
-                        <el-input v-model="scope.row.addAttribute" size="small" placeholder="新增一个规格" class="add-attr" @keyup.enter.native="onAddAttribute(scope.$index)">
-                            <el-button slot="append" size="small" icon="el-icon-plus" @click="onAddAttribute(scope.$index)">添加</el-button>
+                    <template #default="scope">
+                        <el-input v-model="scope.row.addAttribute" size="small" placeholder="新增一个规格" class="add-attr" @keyup.enter="onAddAttribute(scope.$index)">
+                            <template #append>
+                                <el-button size="small" @click="onAddAttribute(scope.$index)">添加</el-button>
+                            </template>
                         </el-input>
                     </template>
                 </el-table-column>
             </el-table>
+            <div class="add-group">
+                <el-input v-model="newGroupName" size="small" placeholder="新增一个规格组" @keyup.enter="onAddGroup">
+                    <template #append>
+                        <el-button size="small" @click="onAddGroup">添加组</el-button>
+                    </template>
+                </el-input>
+            </div>
         </div>
         <div class="sku-list">
             <el-form ref="form" :model="form" status-icon inline-message>
@@ -34,31 +45,29 @@
                     <el-table-column v-for="(attr, index) in emitAttribute" :key="`attribute-${index}`" :label="attr.name" :prop="attr.name" width="120" align="center" :resizable="false" sortable />
                     <el-table-column v-for="(item, index) in structure" :key="`structure-${index}`" :label="item.label" :prop="item.name" align="center" :resizable="false" min-width="120px">
                         <!-- 自定义表头 -->
-                        <template slot="header">
+                        <template #header>
                             <span :class="{'required_title': item.required}">
                                 {{ item.label }}
                             </span>
-                            <el-tooltip v-if="item.tip" effect="dark" :content="item.tip" placement="top">
-                                <i class="el-icon-info" />
-                            </el-tooltip>
+                            <el-tooltip v-if="item.tip" effect="dark" :content="item.tip" placement="top" />
                         </template>
                         <!-- 自定义表格内部展示 -->
-                        <template slot-scope="scope">
+                        <template #default="scope">
                             <!-- 增加是 key 是为了保证异步验证不会出现 skuData 数据变化后无法验证的 bug -->
                             <el-form-item v-if="item.type == 'input'" :key="`structure-input-${index}-${scope.row.sku}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
                                 <el-input v-model="scope.row[item.name]" :placeholder="`请输入${item.label}`" size="small" />
                             </el-form-item>
                             <el-form-item v-else-if="item.type == 'slot'" :key="`structure-input-${index}-${scope.row.sku}`" :prop="'skuData.' + scope.$index + '.' + item.name" :rules="rules[item.name]">
-                                <slot :name="item.name" :$index="scope.$index" :row="scope.row" :column="scope.column" />
+                                <slot :name="item.name" :index="scope.$index" :row="scope.row" :column="scope.column" />
                             </el-form-item>
                         </template>
                     </el-table-column>
                     <!-- 批量设置，当 sku 数超过 2 个时出现 -->
-                    <template v-if="isBatch && form.skuData.length > 2" slot="append">
+                    <template v-if="isBatch && form.skuData.length > 2" #append>
                         <el-table :data="[{}]" :show-header="false">
                             <el-table-column :width="attribute.length * 120 + 50" align="center" :resizable="false">批量设置</el-table-column>
                             <el-table-column v-for="(item, index) in structure" :key="`batch-structure-${index}`" align="center" :resizable="false" min-width="120px">
-                                <el-input v-if="item.type == 'input' && item.batch != false" v-model="batch[item.name]" :placeholder="`填写一个${item.label}`" size="small" @keyup.enter.native="onBatchSet(item.name)" />
+                                <el-input v-if="item.type == 'input' && item.batch != false" v-model="batch[item.name]" :placeholder="`填写一个${item.label}`" size="small" @keyup.enter="onBatchSet(item.name)" />
                             </el-table-column>
                         </el-table>
                     </template>
@@ -69,6 +78,7 @@
 </template>
 
 <script>
+import { ElMessage } from 'element-plus'
 export default {
     name: 'SkuForm',
     props: {
@@ -150,7 +160,8 @@ export default {
             form: {
                 skuData: []
             },
-            batch: {}
+            batch: {},
+            newGroupName: ''
         }
     },
     computed: {
@@ -376,16 +387,32 @@ export default {
                         })
                         this.myAttribute[index].addAttribute = ''
                     } else {
-                        this.$message({
-                            type: 'warning',
-                            message: '请勿添加相同规格'
-                        })
+                        ElMessage({ type: 'warning', message: '请勿添加相同规格' })
                     }
                 } else {
-                    this.$message({
-                        type: 'warning',
-                        message: `规格里不允许出现「 ${this.separator} 」字符，请检查后重新添加`
-                    })
+                    ElMessage({ type: 'warning', message: `规格里不允许出现「 ${this.separator} 」字符，请检查后重新添加` })
+                }
+            }
+        },
+        // 新增一个规格组
+        onAddGroup() {
+            this.newGroupName = this.newGroupName.trim()
+            if (this.newGroupName !== '') {
+                if (!this.newGroupName.includes(this.separator)) {
+                    const exists = this.myAttribute.some(v => v.name === this.newGroupName)
+                    if (!exists) {
+                        this.myAttribute.push({
+                            name: this.newGroupName,
+                            canAddAttribute: true,
+                            addAttribute: '',
+                            item: []
+                        })
+                        this.newGroupName = ''
+                    } else {
+                        ElMessage({ type: 'warning', message: '请勿添加相同规格组' })
+                    }
+                } else {
+                    ElMessage({ type: 'warning', message: `规格组里不允许出现「 ${this.separator} 」字符，请检查后重新添加` })
                 }
             }
         },
@@ -439,7 +466,7 @@ export default {
 
 <style lang="scss" scoped>
 .sku-container {
-    ::v-deep .el-card {
+    :deep(.el-card) {
         margin: 10px 0;
         .el-card__header {
             line-height: initial;
@@ -471,6 +498,13 @@ export default {
             border-bottom: 0;
             margin-bottom: 20px;
         }
+        .add-group {
+            margin: 10px 0 20px;
+            display: inline-block;
+            :deep(.el-input) {
+                width: 300px;
+            }
+        }
     }
     .sku-name {
         text-align: right;
@@ -481,10 +515,10 @@ export default {
     }
     .sku-list {
         line-height: initial;
-        ::v-deep .el-input__inner {
+        :deep(.el-input__inner) {
             text-align: center;
         }
-        ::v-deep .el-table__append-wrapper {
+        :deep(.el-table__append-wrapper) {
             overflow: initial;
             .el-table {
                 overflow: initial;
@@ -493,7 +527,7 @@ export default {
                 }
             }
         }
-        ::v-deep .el-form-item {
+        :deep(.el-form-item) {
             margin-bottom: 0;
             .el-form-item__content {
                 line-height: initial;

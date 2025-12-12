@@ -1,10 +1,10 @@
 <template>
     <div>
         <SkuForm
+            v-model:attribute="attribute"
+            v-model:sku="sku"
             :source-attribute="sourceAttribute"
             :structure="structure"
-            :attribute.sync="attribute"
-            :sku.sync="sku"
         >
             <template #price="slotProps">
                 {{ slotProps.row.price }}

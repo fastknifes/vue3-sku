@@ -1,9 +1,10 @@
 <template>
+    <!-- eslint-disable vue/multi-word-component-names -->
     <div>
         <SkuForm
+            v-model:attribute="attribute"
+            v-model:sku="sku"
             :source-attribute="sourceAttribute"
-            :attribute.sync="attribute"
-            :sku.sync="sku"
             :theme="theme"
         />
         <el-button type="primary" style="margin-top: 10px;" @click="switchTheme">切换主题</el-button>
@@ -21,6 +22,7 @@
 </template>
 
 <script>
+/* eslint-disable vue/multi-word-component-names */
 export default {
     data() {
         return {
