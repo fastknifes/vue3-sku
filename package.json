@@ -30,7 +30,7 @@
     "build-standalone": "set EP_INLINE=1&& vue-cli-service build --target lib --name SkuForm ./src/components/index.js --inline-vue --dest dist-standalone",
     "build:all": "pnpm run build-lib && pnpm run build-standalone",
     "docs:dev": "vuepress dev docs-source",
-    "docs:build": "vuepress build docs-source"
+    "docs:build": "vuepress build docs-source --dest docs"
   },
   "dependencies": {},
   "devDependencies": {
