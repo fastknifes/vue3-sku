@@ -7,6 +7,13 @@ export default [
         }
     },
     {
+        path: '/field-rename',
+        component: () => import('@/examples/field-rename'),
+        meta: {
+            title: '字段改名示例'
+        }
+    },
+    {
         path: '/separator',
         component: () => import('@/examples/separator'),
         meta: {
@@ -95,6 +102,27 @@ export default [
         component: () => import('@/examples/async-recovery'),
         meta: {
             title: '异步加载'
+        }
+    },
+    {
+        path: '/image-group',
+        component: () => import('@/examples/image-group'),
+        meta: {
+            title: '规格组图片（外部组件）'
+        }
+    },
+    {
+        path: '/image-sku',
+        component: () => import('@/examples/image-sku'),
+        meta: {
+            title: 'SKU行图片（外部组件）'
+        }
+    },
+    {
+        path: '/image-linked',
+        component: () => import('@/examples/image-linked'),
+        meta: {
+            title: '组表联动图片（外部组件）'
         }
     }
 ]

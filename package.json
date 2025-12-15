@@ -1,82 +1,87 @@
 {
-    "name": "vue3-sku-form",
-    "description": "基于 Vue3 & Element Plus 的电商 SKU 表单配置组件",
-    "keywords": [
-        "sku",
-        "vue3",
-        "element",
-        "element-plus",
-        "form"
+  "name": "vue3-sku",
+  "description": "基于 Vue3 & Element Plus 的电商 SKU 表单配置组件",
+  "keywords": [
+    "sku",
+    "vue3",
+    "element",
+    "element-plus",
+    "form"
+  ],
+  "version": "0.5.1",
+  "directories": {
+    "dist": "dist"
+  },
+  "homepage": "https://gitee.com/fastknife/vue3-sku",
+  "private": true,
+  "main": "./dist/SkuForm.common.js",
+  "browser": "./dist/SkuForm.umd.min.js",
+  "exports": {
+    ".": {
+      "require": "./dist/SkuForm.common.js",
+      "browser": "./dist/SkuForm.umd.min.js"
+    }
+  },
+  "packageManager": "pnpm@8.15.4",
+  "scripts": {
+    "serve": "set EP_INLINE=1&& vue-cli-service serve",
+    "build": "vue-cli-service build",
+    "build-lib": "set EP_INLINE=0&& vue-cli-service build --target lib --name SkuForm ./src/components/index.js",
+    "build-standalone": "set EP_INLINE=1&& vue-cli-service build --target lib --name SkuForm ./src/components/index.js --inline-vue --dest dist-standalone",
+    "build:all": "pnpm run build-lib && pnpm run build-standalone",
+    "docs:dev": "vuepress dev docs-source",
+    "docs:build": "vuepress build docs-source"
+  },
+  "dependencies": {},
+  "devDependencies": {
+    "@vue/cli-plugin-babel": "^5.0.8",
+    "@vue/cli-service": "^5.0.8",
+    "@babel/eslint-parser": "^7.23.9",
+    "core-js": "^3.6.5",
+    "element-plus": "^2.7.8",
+    "vue": "^3.4.0",
+    "vue-router": "^4.3.0",
+    "sass": "^1.69.0",
+    "sass-loader": "^13.3.2",
+    "sass-resources-loader": "^2.1.0",
+    "stylelint": "^13.7.0",
+    "stylelint-config-recommended-scss": "^4.2.0",
+    "stylelint-config-standard": "^20.0.0",
+    "stylelint-scss": "^3.18.0",
+    "@vue/compiler-sfc": "^3.4.0",
+    "vuepress": "2.0.0-rc.26",
+    "@vuepress/theme-default": "2.0.0-rc.26",
+    "@vuepress/bundler-vite": "2.0.0-rc.26",
+    "@vuepress/plugin-medium-zoom": "2.0.0-rc.26",
+    "@vuepress/helper": "2.0.0-rc.26"
+  },
+  "peerDependencies": {
+    "vue": "^3.4.0",
+    "element-plus": "^2.7.0"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "eslintConfig": {
+    "root": true,
+    "env": {
+      "node": true
+    },
+    "extends": [
+      "plugin:vue/vue3-essential",
+      "eslint:recommended"
     ],
-    "version": "0.5.0",
-    "directories": {
-        "dist": "dist"
+    "parserOptions": {
+      "parser": "@babel/eslint-parser",
+      "requireConfigFile": false
     },
-    "homepage": "https://hooray.github.io/vue3-sku-form",
-    "private": false,
-    "main": "./dist/SkuForm.common.js",
-    "browser": "./dist/SkuForm.umd.min.js",
-    "exports": {
-        ".": {
-            "require": "./dist/SkuForm.common.js",
-            "browser": "./dist/SkuForm.umd.min.js"
-        }
-    },
-    "packageManager": "pnpm@8.15.4",
-    "scripts": {
-        "serve": "vue-cli-service serve",
-        "build": "vue-cli-service build",
-        "build-lib": "set EP_INLINE=0&& vue-cli-service build --target lib --name SkuForm ./src/components/index.js",
-        "build-standalone": "set EP_INLINE=1&& vue-cli-service build --target lib --name SkuForm ./src/components/index.js --inline-vue --dest dist-standalone",
-        "build:all": "pnpm run build-lib && pnpm run build-standalone"
-    },
-    "dependencies": {},
-    "devDependencies": {
-        "@vue/cli-plugin-babel": "^5.0.8",
-        
-        "@vue/cli-service": "^5.0.8",
-        "@babel/eslint-parser": "^7.23.9",
-        
-        "core-js": "^3.6.5",
-        "element-plus": "^2.7.8",
-        "vue": "^3.4.0",
-        "vue-router": "^4.3.0",
-        "sass": "^1.69.0",
-        "sass-loader": "^13.3.2",
-        "sass-resources-loader": "^2.1.0",
-        "stylelint": "^13.7.0",
-        "stylelint-config-recommended-scss": "^4.2.0",
-        "stylelint-config-standard": "^20.0.0",
-        "stylelint-scss": "^3.18.0",
-        "@vue/compiler-sfc": "^3.4.0"
-    },
-    "peerDependencies": {
-        "vue": "^3.4.0",
-        "element-plus": "^2.7.0"
-    },
-    "files": [
-        "dist",
-        "README.md",
-        "LICENSE"
-    ],
-    "eslintConfig": {
-        "root": true,
-        "env": {
-            "node": true
-        },
-        "extends": [
-            "plugin:vue/vue3-essential",
-            "eslint:recommended"
-        ],
-        "parserOptions": {
-            "parser": "@babel/eslint-parser",
-            "requireConfigFile": false
-        },
-        "rules": {}
-    },
-    "browserslist": [
-        "> 1%",
-        "last 2 versions",
-        "not dead"
-    ]
+    "rules": {}
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ]
 }

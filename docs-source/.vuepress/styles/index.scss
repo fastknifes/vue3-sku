@@ -1,0 +1,28 @@
+/* Scope demo-specific tweaks to demo block to avoid global differences */
+.demo-block {
+  .el-table__body-wrapper,
+  .el-table__append-wrapper,
+  .el-form-item__content {
+    overflow: initial;
+  }
+  pre code {
+    display: block;
+    white-space: pre;
+    color: inherit;
+  }
+}
+
+.doc-explain {
+  margin: 12px 0;
+}
+.doc-explain h4 {
+  margin: 0 0 6px;
+  font-weight: 600;
+}
+.doc-explain ul {
+  margin: 0;
+  padding-left: 18px;
+}
+.doc-explain li {
+  line-height: 1.7;
+}

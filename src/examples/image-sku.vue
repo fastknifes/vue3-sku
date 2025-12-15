@@ -1,0 +1,46 @@
+<template>
+    <div>
+        <SkuForm
+            v-model:attribute="attribute"
+            v-model:sku="sku"
+            :source-attribute="sourceAttribute"
+            :structure="structure"
+            image-mode="sku"
+            :image-component="imageComponent"
+        />
+        <el-row type="flex" :gutter="20" style="margin-top:10px;">
+            <el-col>
+                <el-divider content-position="left">attribute 数据</el-divider>
+                <pre><code>{{ attribute }}</code></pre>
+            </el-col>
+            <el-col>
+                <el-divider content-position="left">sku 数据</el-divider>
+                <pre><code>{{ sku }}</code></pre>
+            </el-col>
+        </el-row>
+    </div>
+</template>
+
+<script>
+import { markRaw } from 'vue'
+import MyUploader from '@/components/MyUploader.vue'
+export default {
+    data() {
+        return {
+            sourceAttribute: [
+                { name: '颜色', item: ['黑', '金', '白'] },
+                { name: '内存', item: ['16G', '32G'] }
+            ],
+            structure: [
+                { name: 'price', type: 'input', label: '价格' },
+                { name: 'stock', type: 'input', label: '库存' }
+            ],
+            attribute: [
+                { name: '颜色', item: ['黑', '金'] }
+            ],
+            sku: [],
+            imageComponent: markRaw(MyUploader)
+        }
+    }
+}
+</script>

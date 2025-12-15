@@ -21,3 +21,7 @@ pnpm-debug.log*
 *.sw?
 docs/
 dist-standalone/
+dist/
+node_modules/
+docs-source/.vuepress/.cache/
+docs-source/.vuepress/.temp/
