@@ -1,8 +1,11 @@
 # vue3-sku 文档
 
+**在线文档地址**：https://fastknifes.github.io/vue3-sku/
+
 本组件改之于 `vue-sku-form`，并在其基础上进行 Vue 3 与 Element Plus 的全面升级与能力扩展。
 
 - 原组件文档：`https://hurui.me/vue-sku-form/guide/`
+- 在线文档：`https://fastknifes.github.io/vue3-sku/`
 - 原组件包名：`vue-sku-form`
 - 现组件包名：`vue3-sku`
 - 开源地址：Gitee `https://gitee.com/fastknife/vue3-sku` · Github `https://github.com/fastknifes/vue3-sku`
